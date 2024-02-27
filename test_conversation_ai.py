@@ -24,7 +24,9 @@ def get_response(messages):
 
 while True:
 	pprint.pprint(messages)
-	user_input = input()
+	user_input = input("\nEnter your message: (Enter 'Exit' to exit)")
+	if user_input.lower() == 'exit':
+		break
 	messages = update_chat(messages, "user", user_input)
 	model_response = get_response(messages)
 	messages = update_chat(messages, "assistant", model_response)
