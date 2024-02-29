@@ -1,0 +1,21 @@
+llm = ChatOpenAI()
+
+prompt = ChatPromptTemplate(
+    messages = [
+        SystemMessagePromptTemplate.from_template("You are a chatbot having a conversation with a human."),
+        MessagesPlaceholder(variable_name = "chat_history"),
+        HumanMessagePromptTemplate.from_template("{question}")
+    ]
+)
+
+#Notice that `"chat_history"` aligns with the MessagesPlaceholder name
+memory = ConversationBufferMemory(memory_key = "chat_history", return_messages = True)
+conversation = LLMChain(
+    llm = llm
+    prompt = prompt,
+    verbose = True,
+    memory = memory
+)
+
+#Notice that we jsut pass in the `question` variables - `chat_history` gets populated by memory
+result = conversation({"question": "hi"})

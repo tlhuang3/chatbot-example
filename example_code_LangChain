@@ -1,0 +1,19 @@
+#Load all txt files as documents
+loader = DirectoryLoader('./', glob = "*.txt")
+documents = loader.load()
+
+
+#Split documents into chunks
+text_splitter = CharacterTextSplitter(separator = "\n", chunk_size = 1000, chunk_overlap = 0)
+chunks = text_splitter.split_documents(documents)
+
+
+#Create embeddings for each chunk and save to vector database
+embeddings = OpenAIEmbeddings()
+vectorstore = Chroma.from_documents(chunks, embeddings)
+
+
+#Use QA chain to retrieve relevant chunks
+llm = OpenAI(model_name = 'text-davinci-003')
+qa_chain = RetrievalQA.from_chain_type(llm = llm, retriever = vectorstore.as_retriever())
+result = qa_chain({"query": query_text})
