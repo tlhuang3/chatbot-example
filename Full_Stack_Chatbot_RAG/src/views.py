@@ -5,7 +5,7 @@ from .app import app
 #from .chat_api import call_chat
 from .chat_langchain import call_chat
 
-demo_name = "Nvidia Quarterly News 2024 RAG Chatbot"
+demo_name = "Nvidia Quarter Reports RAG Chatbot"
 
 @app.route("/")
 def index():
